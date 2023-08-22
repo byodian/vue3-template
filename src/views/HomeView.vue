@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { getPosts, getUsers } from "@/api/restapi"
-import { ref } from "vue"
-import type { Post, User } from "@/types"
+import { ref } from 'vue'
+import { getPosts, getUsers } from '@/api/restapi'
+import type { Post, User } from '@/types'
 
 const posts = ref<Post[]>()
 const users = ref<User[]>()
 
-getPosts().then(res => {
+getPosts().then((res) => {
   posts.value = res
-});
+})
 
-getUsers().then(res => {
+getUsers().then((res) => {
   users.value = res
 })
 </script>

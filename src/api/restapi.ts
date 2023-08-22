@@ -5,13 +5,13 @@ export function getPosts() {
   return request<Post[]>({
     url: '/posts',
     method: 'get',
-    showFailToast: false
+    showFailToast: false,
   })
 }
 
 export function getUsers() {
   return request<User[]>({
-    url: "/users",
+    url: '/users',
     method: 'get',
   })
 }

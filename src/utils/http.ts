@@ -20,7 +20,7 @@ export interface Result<T = any> {
 
 export class Http {
   // 普通请求单例
-  private static instance: Http | null  = null
+  private static instance: Http | null = null
   // 文件请求单例
   private static fileInstance: Http | null = null
 
@@ -29,8 +29,8 @@ export class Http {
   requestConfig: HttpRequestConfig
 
   constructor(isFile = false, config: AxiosRequestConfig) {
-    this.baseConfig =  { 
-      baseURL: import.meta.env.DEV ? 'https://jsonplaceholder.typicode.com' : '', 
+    this.baseConfig = {
+      baseURL: import.meta.env.DEV ? 'https://jsonplaceholder.typicode.com' : '',
       showFailToast: true,
     }
 
@@ -38,18 +38,14 @@ export class Http {
     this.axiosInstance = axios.create(this.requestConfig)
     this.requestInterceptors()
 
-    if (isFile) {
-      this.responseFileInterceptors()
-    } else {
-      this.responseInterceptors()
-    }
+    if (isFile) { this.responseFileInterceptors() }
+    else { this.responseInterceptors() }
   }
 
   // 请求拦截
   private requestInterceptors(): void {
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        console.log(config)
         return config
       },
       (error: AxiosError) => {
@@ -108,23 +104,21 @@ export class Http {
     return Promise.reject(new Error(message))
   }
 
-  static getInstance(): Http;
-  static getInstance(axiosRequestConfig: HttpRequestConfig): Http;
+  static getInstance(): Http
+  static getInstance(axiosRequestConfig: HttpRequestConfig): Http
   static getInstance(axiosRequestConfig?: HttpRequestConfig) {
     if (!Http.instance) {
-      console.log('初始化普通请求单例')
-      Http.instance = new Http(false, axiosRequestConfig ? axiosRequestConfig : {})
+      Http.instance = new Http(false, axiosRequestConfig || {})
     }
 
     return Http.instance
   }
 
-  static getFileInstance(): Http;
-  static getFileInstance(axiosRequestConfig: AxiosRequestConfig): Http;
+  static getFileInstance(): Http
+  static getFileInstance(axiosRequestConfig: AxiosRequestConfig): Http
   static getFileInstance(axiosRequestConfig?: AxiosRequestConfig) {
     if (!Http.fileInstance) {
-      console.log('初始化文件请求单例')
-      Http.fileInstance = new Http(true, axiosRequestConfig ? axiosRequestConfig : {})
+      Http.fileInstance = new Http(true, axiosRequestConfig || {})
     }
 
     return Http.fileInstance
@@ -132,7 +126,7 @@ export class Http {
 }
 
 export function request<T = any>(config: HttpRequestConfig): Promise<T> {
-  return Http.getInstance().axiosInstance(config);
+  return Http.getInstance().axiosInstance(config)
 }
 
 export function requestFile<T = any>(config: HttpRequestConfig): Promise<T> {
